@@ -32,6 +32,7 @@ export function queriesWithUpdatedReferences(
     const isResampleExpression = query.model.type === 'resample';
     const isClassicExpression = query.model.type === 'classic_conditions';
     const isThresholdExpression = query.model.type === 'threshold';
+    const isHysteresisExpression = query.model.type === 'hysteresis';
 
     if (isMathExpression) {
       return {
@@ -43,7 +44,7 @@ export function queriesWithUpdatedReferences(
       };
     }
 
-    if (isResampleExpression || isReduceExpression || isThresholdExpression) {
+    if (isResampleExpression || isReduceExpression || isThresholdExpression || isHysteresisExpression) {
       const isReferencing = query.model.expression === previousRefId;
 
       return {

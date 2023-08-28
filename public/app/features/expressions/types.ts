@@ -13,6 +13,7 @@ export enum ExpressionQueryType {
   resample = 'resample',
   classic = 'classic_conditions',
   threshold = 'threshold',
+  hysteresis = 'hysteresis'
 }
 
 export const getExpressionLabel = (type: ExpressionQueryType) => {
@@ -27,6 +28,8 @@ export const getExpressionLabel = (type: ExpressionQueryType) => {
       return 'Classic condition';
     case ExpressionQueryType.threshold:
       return 'Threshold';
+    case ExpressionQueryType.hysteresis:
+      return 'Hysteresis';
   }
 };
 
@@ -58,6 +61,12 @@ export const expressionTypes: Array<SelectableValue<ExpressionQueryType>> = [
     label: 'Threshold',
     description:
       'Takes one or more time series returned from a query or an expression and checks if any of the series match the threshold condition.',
+  },
+  {
+    value: ExpressionQueryType.hysteresis,
+    label: getExpressionLabel(ExpressionQueryType.hysteresis),
+    description:
+        'Takes each series returned from a query or an expression and checks if its value is above either of thresholds. Uses the results of the previous evaluation to determine against which threshold the value needs to be evaluated.',
   },
 ];
 
@@ -128,6 +137,8 @@ export interface ExpressionQuery extends DataQuery {
   upsampler?: string;
   conditions?: ClassicCondition[];
   settings?: ExpressionQuerySettings;
+  loadCondition?: ClassicCondition
+  unloadCondition?: ClassicCondition
 }
 
 export interface ExpressionQuerySettings {

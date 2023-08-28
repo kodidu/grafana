@@ -18,6 +18,7 @@ import {
 } from 'app/features/expressions/types';
 import { AlertQuery, PromAlertingRuleState } from 'app/types/unified-alerting-dto';
 
+import { Hysteresis } from '../../../../expressions/components/Hysteresis';
 import { usePagination } from '../../hooks/usePagination';
 import { HoverCard } from '../HoverCard';
 import { Spacer } from '../Spacer';
@@ -92,6 +93,8 @@ export const Expression: FC<ExpressionProps> = ({
         case ExpressionQueryType.threshold:
           return <Threshold onChange={onChangeQuery} query={query} labelWidth={'auto'} refIds={availableRefIds} />;
 
+        case ExpressionQueryType.hysteresis:
+          return <Hysteresis labelWidth={'auto'} refIds={availableRefIds} query={query} onChange={onChangeQuery} />;
         default:
           return <>Expression not supported: {query.type}</>;
       }

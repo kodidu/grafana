@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 
-import { DataSourceApi, QueryEditorProps, SelectableValue } from '@grafana/data';
-import { InlineField, Select } from '@grafana/ui';
+import {DataSourceApi, QueryEditorProps, SelectableValue} from '@grafana/data';
+import {InlineField, Select} from '@grafana/ui';
 
-import { ClassicConditions } from './components/ClassicConditions';
-import { Math } from './components/Math';
-import { Reduce } from './components/Reduce';
-import { Resample } from './components/Resample';
-import { Threshold } from './components/Threshold';
-import { ExpressionQuery, ExpressionQueryType, expressionTypes } from './types';
-import { getDefaults } from './utils/expressionTypes';
+import {ClassicConditions} from './components/ClassicConditions';
+import {Hysteresis} from "./components/Hysteresis";
+import {Math} from './components/Math';
+import {Reduce} from './components/Reduce';
+import {Resample} from './components/Resample';
+import {Threshold} from './components/Threshold';
+import {ExpressionQuery, ExpressionQueryType, expressionTypes} from './types';
+import {getDefaults} from './utils/expressionTypes';
 
 type Props = QueryEditorProps<DataSourceApi<ExpressionQuery>, ExpressionQuery>;
 
@@ -27,6 +28,7 @@ function useExpressionsCache() {
       case ExpressionQueryType.reduce:
       case ExpressionQueryType.resample:
       case ExpressionQueryType.threshold:
+      case ExpressionQueryType.hysteresis:
         return expressionCache.current[queryType];
       case ExpressionQueryType.classic:
         return undefined;
@@ -89,6 +91,8 @@ export function ExpressionQueryEditor(props: Props) {
 
       case ExpressionQueryType.threshold:
         return <Threshold onChange={onChange} query={query} labelWidth={labelWidth} refIds={refIds} />;
+      case ExpressionQueryType.hysteresis:
+        return <Hysteresis onChange={onChange} query={query} labelWidth={labelWidth} refIds={refIds} />;
     }
   };
 

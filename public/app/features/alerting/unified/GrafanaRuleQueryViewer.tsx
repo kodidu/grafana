@@ -183,6 +183,9 @@ function ExpressionPreview({ refId, model, evalData, isAlertCondition }: Express
       case ExpressionQueryType.threshold:
         return <ThresholdExpressionViewer model={model} />;
 
+      case ExpressionQueryType.hysteresis:
+        return <HysteresisExpressionViewer model={model} />;
+
       default:
         return <>Expression not supported: {model.type}</>;
     }
@@ -456,4 +459,41 @@ const getCommonQueryStyles = (theme: GrafanaTheme2) => ({
 
 function isRangeEvaluator(evaluator: { params: number[]; type: EvalFunction }) {
   return evaluator.type === EvalFunction.IsWithinRange || evaluator.type === EvalFunction.IsOutsideRange;
+}
+
+function HysteresisExpressionViewer({ model }: { model: ExpressionQuery }) {
+  const styles = useStyles2(getExpressionViewerStyles);
+
+  const { expression, loadCondition, unloadCondition } = model;
+
+  const loadEvaluator = loadCondition?.evaluator;
+  const loadThreshold = thresholdFunctions.find((tf) => tf.value === loadEvaluator?.type);
+  const unloadEvaluator = unloadCondition?.evaluator;
+  const unloadThreshold = thresholdFunctions.find((tf) => tf.value === unloadEvaluator?.type);
+
+  const isLoadRange = loadEvaluator ? isRangeEvaluator(loadEvaluator) : false;
+  const isUnloadRange = unloadEvaluator ? isRangeEvaluator(unloadEvaluator) : false;
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.label}>Input</div>
+      <div className={styles.value}>{expression}</div>
+      {loadEvaluator && (
+        <>
+          <div className={styles.blue}>{loadThreshold?.label}</div>
+          <div className={styles.bold}>
+            {isLoadRange ? `(${loadEvaluator.params[0]}; ${loadEvaluator.params[1]})` : loadEvaluator.params[0]}
+          </div>
+        </>
+      )}
+      {unloadEvaluator && (
+        <>
+          <div className={styles.blue}>{unloadThreshold?.label}</div>
+          <div className={styles.bold}>
+            {isUnloadRange ? `(${unloadEvaluator.params[0]}; ${unloadEvaluator.params[1]})` : unloadEvaluator.params[0]}
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
