@@ -32,11 +32,11 @@ func TestNew(t *testing.T) {
 	err = log2.Log("msg", "hello 2")
 	require.NoError(t, err)
 	log3 := New("three")
-	log3.Error("hello 3")
+	log3.Error("Hello 3")
 	log4 := log3.New("key", "value")
 	err = log4.Log("msg", "hello 4")
 	require.NoError(t, err)
-	log3.Error("hello 3 again")
+	log3.Error("Hello 3 again")
 
 	require.Len(t, scenario.loggedArgs, 5, "lines logged")
 	scenario.ValidateLineEquality(t, 0, []any{
@@ -94,8 +94,8 @@ func TestNew(t *testing.T) {
 		require.NoError(t, err)
 		err = log2.Log("msg", "hello 2")
 		require.NoError(t, err)
-		log3.Error("hello 3")
-		log3.Debug("debug")
+		log3.Error("Hello 3")
+		log3.Debug("Debug")
 
 		require.Len(t, scenario.loggedArgs, 5, "lines logged before swapping logger")
 		require.Len(t, swappedLoggedArgs, 7, "expected 4 messages for AllowAll logger and 3 messages for AllowInfo logger")
@@ -108,22 +108,22 @@ func TestContextualArguments(t *testing.T) {
 
 	rootLogger := New("root")
 	rootLoggerCtx := rootLogger.FromContext(ctx)
-	rootLoggerCtx.Debug("hello root")
+	rootLoggerCtx.Debug("Hello root")
 	childLogger := rootLogger.New("childKey", "childValue")
 	childLoggerCtx := childLogger.FromContext(ctx)
-	childLoggerCtx.Error("hello child")
+	childLoggerCtx.Error("Hello child")
 
 	RegisterContextualLogProvider(func(ctx context.Context) ([]interface{}, bool) {
 		return []interface{}{"ctxKey", "ctxValue"}, true
 	})
 
 	rootLoggerCtx = rootLogger.FromContext(ctx)
-	rootLoggerCtx.Debug("hello contextual root")
+	rootLoggerCtx.Debug("Hello contextual root")
 	childLoggerCtx = childLogger.FromContext(ctx)
-	childLoggerCtx.Error("hello contextual child")
+	childLoggerCtx.Error("Hello contextual child")
 
 	newRootLogger := New("root")
-	newRootLogger.Debug("hello root")
+	newRootLogger.Debug("Hello root")
 
 	require.Len(t, scenario.loggedArgs, 5)
 
@@ -167,7 +167,7 @@ func TestContextualArguments(t *testing.T) {
 func TestWithPrefix_prependsContext(t *testing.T) {
 	scenario := newLoggerScenario(t)
 	ls := WithPrefix(New("test"), "k1", "v1")
-	ls.Info("hello", "k2", "v2")
+	ls.Info("Hello", "k2", "v2")
 
 	require.Len(t, scenario.loggedArgs, 1)
 	scenario.ValidateLineEquality(t, 0, []any{
@@ -184,7 +184,7 @@ func TestWithSuffix_appendsContext(t *testing.T) {
 	scenario := newLoggerScenario(t)
 
 	ls := WithSuffix(New("test"), "k1", "v1")
-	ls.Info("hello", "k2", "v2")
+	ls.Info("Hello", "k2", "v2")
 
 	require.Len(t, scenario.loggedArgs, 1)
 	scenario.ValidateLineEquality(t, 0, []any{

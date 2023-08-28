@@ -16,7 +16,7 @@ type logWrapper struct {
 }
 
 func (lw *logWrapper) Println(v ...interface{}) {
-	lw.logger.Info("graphite metric bridge", v...)
+	lw.logger.Info("Graphite metric bridge", v...)
 }
 
 func init() {
@@ -43,7 +43,7 @@ func (im *InternalMetricsService) Run(ctx context.Context) error {
 	if im.graphiteCfg != nil {
 		bridge, err := graphitebridge.NewBridge(im.graphiteCfg)
 		if err != nil {
-			metricsLogger.Error("failed to create graphite bridge", "error", err)
+			metricsLogger.Error("Failed to create graphite bridge", "error", err)
 		} else {
 			go bridge.Run(ctx)
 		}

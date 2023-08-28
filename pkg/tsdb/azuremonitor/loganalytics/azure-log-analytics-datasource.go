@@ -308,7 +308,7 @@ func (e *AzureLogAnalyticsDatasource) executeQuery(ctx context.Context, logger l
 	defer func() {
 		err := res.Body.Close()
 		if err != nil {
-			logger.Warn("failed to close response body", "error", err)
+			logger.Warn("Failed to close response body", "error", err)
 		}
 	}()
 
@@ -590,7 +590,7 @@ func getCorrelationWorkspaces(ctx context.Context, logger log.Logger, baseResour
 		defer func() {
 			err := res.Body.Close()
 			if err != nil {
-				logger.Warn("failed to close response body", "error", err)
+				logger.Warn("Failed to close response body", "error", err)
 			}
 		}()
 

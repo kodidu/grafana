@@ -92,7 +92,7 @@ func CheckInfluxQLHealth(ctx context.Context, dsInfo *models.DatasourceInfo, s *
 
 	defer func() {
 		if err := res.Body.Close(); err != nil {
-			logger.Warn("failed to close response body", "err", err)
+			logger.Warn("Failed to close response body", "err", err)
 		}
 	}()
 
@@ -161,7 +161,7 @@ func getHealthCheckMessage(logger log.Logger, message string, err error) (*backe
 		}, nil
 	}
 
-	logger.Warn("error performing influxdb healthcheck", "err", err.Error())
+	logger.Warn("Error performing influxdb healthcheck", "err", err.Error())
 	errorMessage := fmt.Sprintf("%s %s", err.Error(), message)
 
 	return &backend.CheckHealthResult{
