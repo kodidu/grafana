@@ -57,7 +57,6 @@ func TestHysteresisUnmarshall(t *testing.T) {
 		require.Equal(t, []float64{30.0}, cmd.UnloadingThresholdFunc.Conditions)
 		require.Equal(t, reader, cmd.LoadedReader)
 	})
-
 }
 
 func TestHysteresisExecute(t *testing.T) {
