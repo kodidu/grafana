@@ -60,9 +60,9 @@ func (q *PermissionFilter) logAccessDecision(decision bool, kind interface{}, id
 
 	ctx = append(ctx, "kind", kind, "id", id, "reason", reason)
 	if decision {
-		q.log.Debug("Allowing access", ctx...)
+		q.log.Debug("allowing access", ctx...)
 	} else {
-		q.log.Info("Denying access", ctx...)
+		q.log.Info("denying access", ctx...)
 	}
 }
 

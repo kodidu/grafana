@@ -93,10 +93,10 @@ func (s *Service) RunStream(ctx context.Context, req *backend.RunStreamRequest, 
 	}
 	wsurl.RawQuery = params.Encode()
 
-	logger.Info("Connecting to websocket", "url", wsurl)
+	logger.Info("connecting to websocket", "url", wsurl)
 	c, r, err := websocket.DefaultDialer.Dial(wsurl.String(), nil)
 	if err != nil {
-		logger.Error("Error connecting to websocket", "err", err)
+		logger.Error("error connecting to websocket", "err", err)
 		return fmt.Errorf("error connecting to websocket")
 	}
 
@@ -108,7 +108,7 @@ func (s *Service) RunStream(ctx context.Context, req *backend.RunStreamRequest, 
 			_ = r.Body.Close()
 		}
 		err = c.Close()
-		logger.Error("Closing loki websocket", "err", err)
+		logger.Error("closing loki websocket", "err", err)
 	}()
 
 	prev := data.FrameJSONCache{}
@@ -120,7 +120,7 @@ func (s *Service) RunStream(ctx context.Context, req *backend.RunStreamRequest, 
 		for {
 			_, message, err := c.ReadMessage()
 			if err != nil {
-				logger.Error("Websocket read:", "err", err)
+				logger.Error("websocket read:", "err", err)
 				return
 			}
 
@@ -143,7 +143,7 @@ func (s *Service) RunStream(ctx context.Context, req *backend.RunStreamRequest, 
 			}
 
 			if err != nil {
-				logger.Error("Websocket write:", "err", err, "raw", message)
+				logger.Error("websocket write:", "err", err, "raw", message)
 				return
 			}
 		}
@@ -155,14 +155,14 @@ func (s *Service) RunStream(ctx context.Context, req *backend.RunStreamRequest, 
 	for {
 		select {
 		case <-done:
-			logger.Info("Socket done")
+			logger.Info("socket done")
 			return nil
 		case <-ctx.Done():
-			logger.Info("Stop streaming (context canceled)")
+			logger.Info("stop streaming (context canceled)")
 			return nil
 		case t := <-ticker.C:
 			count++
-			logger.Error("Loki websocket ping?", "time", t, "count", count)
+			logger.Error("loki websocket ping?", "time", t, "count", count)
 		}
 	}
 }

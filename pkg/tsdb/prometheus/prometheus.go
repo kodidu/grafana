@@ -38,7 +38,7 @@ type instance struct {
 }
 
 func ProvideService(httpClientProvider httpclient.Provider, cfg *setting.Cfg, features featuremgmt.FeatureToggles, tracer tracing.Tracer) *Service {
-	plog.Debug("Initializing")
+	plog.Debug("initializing")
 	return &Service{
 		im:       datasource.NewInstanceManager(newInstanceSettings(httpClientProvider, cfg, features, tracer)),
 		features: features,
