@@ -47,8 +47,6 @@ export const ManageDashboardsNew = React.memo(({ folder }: Props) => {
             value={state.query ?? ''}
             onChange={(e) => stateManager.onQueryChange(e)}
             onKeyDown={onKeyDown}
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
             spellCheck={false}
             placeholder={getSearchPlaceholder(state.includePanels)}
             escapeRegex={false}
